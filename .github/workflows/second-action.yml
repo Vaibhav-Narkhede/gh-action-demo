@@ -1,0 +1,24 @@
+name: Second Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print greeting
+        run: echo "Starting First Job"     
+      - name: Finish first job
+        run: echo "First Job Completed"
+
+  second-job:
+    needs: first-job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print greeting
+        run: echo "Starting Second Job"
+      - name: Finish second job
+        run: echo "Second Job Completed"
