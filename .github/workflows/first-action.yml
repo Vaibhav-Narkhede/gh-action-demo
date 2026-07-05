@@ -1,14 +1,22 @@
-name: First Workflow
-on: workflow_dispatch
-jobs:
-  first-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print greeting
-        run: echo "Hello World!"
-      - name: multi-line shell commands
-        run: |
-            echo "First Command"
-            echo "Second Command" 
-      - name: Print goodbye
-        run: echo "Done - bye!"
+# Disabled legacy demo workflow.
+# It is kept in the repository for reference only and will not run.
+#
+# name: First Workflow
+#
+# on: workflow_dispatch
+#
+# jobs:
+#   first-job:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - name: Print greeting
+#         run: echo "Hello World!"
+#
+#       - name: multi-line shell commands
+#         run: |
+#           echo "First Command"
+#           echo "Second Command"
+#
+#       - name: Print goodbye
+#         run: echo "Done - bye!"
