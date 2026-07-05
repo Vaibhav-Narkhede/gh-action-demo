@@ -49,4 +49,24 @@
   .subtitle {
     @apply mt-4 max-w-xl text-lg leading-8 text-slate-300;
   }
+
+  .clock-card {
+    @apply mt-8 rounded-2xl border border-sky-300/20 bg-slate-900/80 p-6 shadow-lg shadow-sky-950/30;
+  }
+
+  .clock-label {
+    @apply m-0 text-xs font-semibold uppercase tracking-[0.2em] text-sky-300/80;
+  }
+
+  .clock-date {
+    @apply mt-2 text-2xl font-medium tracking-tight text-white sm:text-3xl;
+  }
+
+  .clock-time {
+    @apply mt-2 text-4xl font-semibold tracking-tight text-sky-200 sm:text-5xl;
+  }
+
+  .clock-zone {
+    @apply mt-3 mb-0 text-sm tracking-[0.12em] uppercase text-slate-400;
+  }
 }
