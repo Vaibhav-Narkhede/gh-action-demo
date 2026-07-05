@@ -33,6 +33,12 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # `enablement` needs a token stronger than `GITHUB_TOKEN`.
+          # If `PAGES_TOKEN` is absent, leave enablement off and require
+          # the repository Pages setting to be enabled once in GitHub UI.
+          token: ${{ secrets.PAGES_TOKEN != '' && secrets.PAGES_TOKEN || github.token }}
+          enablement: ${{ secrets.PAGES_TOKEN != '' }}
 
       - name: Build app
         env:
