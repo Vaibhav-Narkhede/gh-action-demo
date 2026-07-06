@@ -1,0 +1,66 @@
+name: Release Go binary
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Build release binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release
+
+          while read -r os arch; do
+            binary="hello"
+            if [[ "$os" == "windows" ]]; then
+              binary="hello.exe"
+            fi
+
+            output="release/hello_${os}_${arch}"
+            mkdir -p "$output"
+            GOOS="$os" GOARCH="$arch" CGO_ENABLED=0 \
+              go build -trimpath -ldflags="-s -w" -o "$output/$binary" ./cmd/hello
+            tar -czf "${output}.tar.gz" -C "$output" "$binary"
+            rm -rf "$output"
+          done <<'TARGETS'
+          linux amd64
+          linux arm64
+          darwin amd64
+          darwin arm64
+          windows amd64
+          TARGETS
+
+          cd release
+          sha256sum *.tar.gz > checksums.txt
+
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" release/* --generate-notes --verify-tag
+
+      - name: Upload manual-run artifacts
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-binaries
+          path: release/*
